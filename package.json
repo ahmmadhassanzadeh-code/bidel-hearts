@@ -1,0 +1,13 @@
+{
+  "name": "bidel-online",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Bidel Hearts online game and real-card scorekeeper",
+  "main": "hearts-server.js",
+  "scripts": {
+    "start": "node hearts-server.js",
+    "check": "node --check hearts-server.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": { "pg": "^8.16.3" }
+}

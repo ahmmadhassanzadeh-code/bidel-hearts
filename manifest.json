@@ -1,0 +1,11 @@
+{
+  "name":"بیدل آنلاین",
+  "short_name":"بیدل",
+  "start_url":"/",
+  "display":"standalone",
+  "background_color":"#061b12",
+  "theme_color":"#0d2818",
+  "dir":"rtl",
+  "lang":"fa",
+  "icons":[]
+}
