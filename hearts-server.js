@@ -16,7 +16,7 @@ function validPid(pid){return /^[a-f0-9]{24}$/.test(String(pid||''))}
 function sign(v){return crypto.createHmac('sha256',SECRET).update(v).digest('hex')}
 function tokenFor(pid){return pid+'.'+sign(pid)}
 function validToken(pid,t){return validPid(pid)&&String(t||'')===tokenFor(pid)}
-function jsonSend(s,c,b,t='application/json; charset=utf-8'){s.writeHead(c,{...CORS,'Content-Type':t});s.end(typeof b==='string'?b:JSON.stringify(b))}
+function jsonSend(s,c,b,t='application/json; charset=utf-8'){s.writeHead(c,{...CORS,'Content-Type':t});s.end(Buffer.isBuffer(b)?b:(typeof b==='string'?b:JSON.stringify(b)))}
 function parseBody(q,limit=30000){return new Promise((resolve,reject)=>{let b='';q.on('data',d=>{b+=d;if(b.length>limit){q.destroy();reject(new Error('body too large'))}});q.on('end',()=>{try{resolve(JSON.parse(b))}catch(e){reject(e)}});q.on('error',reject)})}
 function rateAllowed(req,route){const ip=String(req.headers['x-forwarded-for']||'').split(',')[0].trim()||req.socket.remoteAddress||'unknown',key=ip+'|'+route,now=Date.now(),limit=route==='/api/join'?30:180,windowMs=60000;let b=rateBuckets.get(key);if(!b||now-b.start>=windowMs){b={start:now,count:0};rateBuckets.set(key,b)}b.count++;if(rateBuckets.size>2500)for(const[k,v]of rateBuckets)if(now-v.start>windowMs)rateBuckets.delete(k);return b.count<=limit}
 
