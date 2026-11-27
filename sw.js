@@ -1,5 +1,5 @@
 /* Bidel PWA shell cache. Game API and live SSE are never cached. */
-const CACHE_NAME = 'bidel-shell-v5';
+const CACHE_NAME = 'bidel-shell-v7';
 const APP_SHELL = ['/', '/index.html', '/scorekeeper.html', '/manifest.json', '/icon.svg'];
 
 self.addEventListener('install', event => {
@@ -28,10 +28,10 @@ self.addEventListener('fetch', event => {
       fetch(request).then(response => {
         if (response.ok) {
           const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put('/', copy));
+          caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
         }
         return response;
-      }).catch(() => caches.match('/').then(cached => cached || new Response('برای بارگذاری بازی به اینترنت وصل شو.', {status:503,headers:{'Content-Type':'text/plain; charset=utf-8'}})))
+      }).catch(() => caches.match(request).then(cached => cached || caches.match('/')).then(cached => cached || new Response('برای بارگذاری بازی به اینترنت وصل شو.', {status:503,headers:{'Content-Type':'text/plain; charset=utf-8'}})))
     );
     return;
   }

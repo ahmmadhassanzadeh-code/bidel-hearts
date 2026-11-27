@@ -6,8 +6,13 @@
   "main": "hearts-server.js",
   "scripts": {
     "start": "node hearts-server.js",
-    "check": "node --check hearts-server.js"
+    "check": "node --check hearts-server.js && node --check tests/sim.js",
+    "test": "node tests/sim.js"
   },
-  "engines": { "node": ">=18" },
-  "dependencies": { "pg": "^8.16.3" }
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "pg": "^8.16.3"
+  }
 }
